@@ -57,7 +57,7 @@ class WpApi
      */
     public function pages($page = null)
     {
-        return $this->get('posts', ['type' => 'page', 'page' => $page]);
+        return $this->get('posts', ['type' => 'page', 'page' => $page, 'per_page' => 100]);
     }
 
     /**
@@ -185,7 +185,6 @@ class WpApi
     {
 
         try {
-
             $query = ['query' => $query];
 
             if ($this->auth) {
@@ -199,9 +198,7 @@ class WpApi
                 'total'   => $response->getHeaderLine('X-WP-Total'),
                 'pages'   => $response->getHeaderLine('X-WP-TotalPages')
             ];
-
         } catch (RequestException $e) {
-
             $error['message'] = $e->getMessage();
 
             if ($e->getResponse()) {
@@ -214,10 +211,8 @@ class WpApi
                 'total'   => 0,
                 'pages'   => 0
             ];
-
         }
 
         return $return;
-
     }
 }
